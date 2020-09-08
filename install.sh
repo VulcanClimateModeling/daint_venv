@@ -1,6 +1,4 @@
 #!/bin/bash
-set -e
-set -x
 
 version=sn_1.0
 env_file=env.daint.sh
@@ -16,6 +14,10 @@ cuda_version=cuda101
 source ./env.sh
 source ./env/machineEnvironment.sh
 source ./env/${env_file}
+
+# echo commands and stop on error
+set -e
+set -x
 
 # setup virtual env
 if [ -d ${dst_dir} ] ; then /bin/rm -rf ${dst_dir} ; fi
