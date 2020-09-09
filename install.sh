@@ -8,7 +8,7 @@ dst_dir=/project/d107/install/venv/${version}
 fv3config_sha1=2212b33a2ec8e2e05df10e1c9ca0f1815d4f9a8d
 gt4py_url="git+git://github.com/GridTools/gt4py.git"
 gt4py_sha1=204838ea0e88a30b6eb41babbd58fb8a86d14a0e
-cuda_version=cuda101
+cuda_version=cuda102
 
 # module environment
 source ./env.sh
