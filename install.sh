@@ -2,7 +2,7 @@
 
 version=sn_1.0
 env_file=env.daint.sh
-dst_dir=/project/d107/install/venv/${version}
+dst_dir=/project/s1053/install/venv/${version}
 
 # versions
 fv3config_sha1=2212b33a2ec8e2e05df10e1c9ca0f1815d4f9a8d
