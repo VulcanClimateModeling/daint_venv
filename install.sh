@@ -34,7 +34,8 @@ pip install pytest pytest-profiling pytest-subtests hypothesis
 # installation of fv3 dependencies
 pip install cftime f90nml pyyaml xarray zarr
 
-# build and install mpi4py
+# build and install mpi4py from sources
+rm -rf ./mpi4py
 export MPICC=cc
 git clone https://github.com/mpi4py/mpi4py.git
 cp ./mpi.cfg ./mpi4py
