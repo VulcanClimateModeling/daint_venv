@@ -47,6 +47,3 @@ pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config
 pip install ${gt4py_url}#egg=gt4py[${cuda_version}]
 python -m gt4py.gt_src_manager install
 deactivate
-
-# add note when activated
-cat >> ${dst_dir}/bin/activate
