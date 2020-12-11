@@ -29,7 +29,7 @@ pip install --upgrade wheel
 pip install numpy
 pip install matplotlib
 pip install cupy-${cuda_version}
-pip install pytest pytest-profiling pytest-subtests
+pip install pytest pytest-profiling pytest-subtests hypothesis
 
 # installation of fv3 dependencies
 pip install cftime f90nml pyyaml xarray zarr
