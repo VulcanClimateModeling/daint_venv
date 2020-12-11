@@ -47,3 +47,7 @@ pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config
 pip install ${gt4py_url}#egg=gt4py[${cuda_version}]
 python -m gt4py.gt_src_manager install
 deactivate
+
+# echo module environment
+echo "Note: this virtual env has been created on `hostname`."
+cat ./env/${env_file} >> ${dst_dir}/bin/activate
