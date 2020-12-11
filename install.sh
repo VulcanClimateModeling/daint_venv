@@ -35,7 +35,12 @@ pip install pytest pytest-profiling pytest-subtests
 pip install cftime f90nml pyyaml xarray zarr
 
 # build and install mpi4py
-MPICC=cc python -m pip install --upgrade git+https://github.com/mpi4py/mpi4py.git
+export MPICC=cc
+git clone https://github.com/mpi4py/mpi4py.git
+cp ./mpi.cfg ./mpi4py
+cd mpi4py
+python setup.py build --mpi=mpi
+python setup.py install
 
 # installation of our packages
 pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
@@ -44,4 +49,4 @@ python -m gt4py.gt_src_manager install
 deactivate
 
 # add note when activated
-cat >> ${dst_dir}/bin/activate <<EOF1
+cat >> ${dst_dir}/bin/activate
