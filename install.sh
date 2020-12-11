@@ -29,9 +29,10 @@ pip install --upgrade wheel
 pip install numpy
 pip install matplotlib
 pip install cupy-${cuda_version}
+pip install pytest pytest-profiling pytest-subtests
 
 # installation of fv3 dependencies
-pip install cftime xarray zarr f90nml
+pip install cftime f90nml pyyaml xarray zarr
 
 # build and install mpi4py
 MPICC=cc python -m pip install --upgrade git+https://github.com/mpi4py/mpi4py.git
@@ -44,16 +45,3 @@ deactivate
 
 # add note when activated
 cat >> ${dst_dir}/bin/activate <<EOF1
-
-# echo module environment
-# echo "Note: this virtual env has been created on `hostname` using the folowing module environment:"
-# cat <<'EOF'
-# EOF1
-# cat ./env/${env_file} >> ${dst_dir}/bin/activate
-# cat >> ${dst_dir}/bin/activate <<EOF2
-# EOF
-
-# EOF2
-
-# done
-exit 0
