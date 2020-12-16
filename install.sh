@@ -26,13 +26,11 @@ pip install --upgrade pip
 pip install --upgrade wheel
 
 # installation of standard packages
-pip install numpy
-pip install matplotlib
-pip install cupy-${cuda_version}
+pip install kiwisolver numpy matplotlib cupy-${cuda_version} Cython h5py six zipp
 pip install pytest pytest-profiling pytest-subtests hypothesis
 
 # installation of fv3 dependencies
-pip install cftime f90nml pyyaml xarray zarr
+pip install cftime f90nml pandas pyparsing python-dateutil pytz pyyaml xarray zarr
 
 # build and install mpi4py from sources
 rm -rf ./mpi4py
