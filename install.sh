@@ -23,15 +23,15 @@ set -x
 if [ -d ${dst_dir} ] ; then /bin/rm -rf ${dst_dir} ; fi
 python3 -m venv ${dst_dir}
 source ${dst_dir}/bin/activate
-pip install --upgrade pip
-pip install --upgrade wheel
+python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade wheel
 
 # installation of standard packages
-pip install kiwisolver numpy matplotlib cupy-${cuda_version} Cython h5py six zipp
-pip install pytest pytest-profiling pytest-subtests hypothesis
+python3 -m pip install kiwisolver numpy matplotlib cupy-${cuda_version} Cython h5py six zipp
+python3 -m pip install pytest pytest-profiling pytest-subtests hypothesis
 
 # installation of fv3 dependencies
-pip install cftime f90nml pandas pyparsing python-dateutil pytz pyyaml xarray zarr
+python3 -m pip install cftime f90nml pandas pyparsing python-dateutil pytz pyyaml xarray zarr
 
 # build and install mpi4py from sources
 rm -rf ${src_dir}/mpi4py
@@ -39,15 +39,16 @@ export MPICC=cc
 git clone https://github.com/mpi4py/mpi4py.git
 cp ${src_dir}/mpi.cfg ${src_dir}/mpi4py
 cd mpi4py
-python setup.py build --mpi=mpi
-python setup.py install
+python3 setup.py build --mpi=mpi
+python3 setup.py install
 
 # installation of our packages
-pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
-pip install ${gt4py_url}#egg=gt4py[${cuda_version}]
-python -m gt4py.gt_src_manager install
+python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
+python3 -m pip install ${gt4py_url}#egg=gt4py[${cuda_version}]
+python3 -m gt4py.gt_src_manager install
 deactivate
 
 # echo module environment
 echo "Note: this virtual env has been created on `hostname`."
-cat ${src_dir}/env/${env_file} >> ${dst_dir}/bin/activate
+cat ${src_dir}/env/${env_file} ${dst_dir}/bin/activate > ${dst_dir}/bin/activate~
+mv ${dst_dir}/bin/activate~ ${dst_dir}/bin/activate
