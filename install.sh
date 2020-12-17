@@ -41,6 +41,7 @@ cp ${src_dir}/mpi.cfg ${src_dir}/mpi4py
 cd mpi4py
 python3 setup.py build --mpi=mpi
 python3 setup.py install
+unset MPICC
 
 # installation of our packages
 python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
