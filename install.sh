@@ -4,7 +4,6 @@ version=vcm_1.0
 env_file=env.daint.sh
 venv_dir=/project/s1053/install/venv
 dst_dir=${venv_dir}/${version}
-install_dir=${dst_dir}_tmp
 
 # versions
 fv3config_sha1=1eb1f2898e9965ed7b32970bed83e64e074a7630
@@ -20,14 +19,14 @@ source ./env/${env_file}
 set -e
 set -x
 
-# delete any left-over temporary directories
-if [ -d ${install_dir} ] ; then
-    /bin/rm -rf ${install_dir}
+# delete any pre-existing venv directories
+if [ -d ${dst_dir} ] ; then
+    /bin/rm -rf ${dst_dir}
 fi
 
 # setup virtual env
-python3 -m venv ${install_dir}
-source ${install_dir}/bin/activate
+python3 -m venv ${dst_dir}
+source ${dst_dir}/bin/activate
 pip install --upgrade pip
 pip install --upgrade wheel
 
@@ -60,19 +59,7 @@ deactivate
 
 # echo module environment
 echo "Note: this virtual env has been created on `hostname`."
-cat ./env/${env_file} >> ${install_dir}/bin/activate
-
-# move new venv in place (as quickly as possible)
-if [ -d ${dst_dir}_old ] ; then
-  /bin/rm -rf ${dst_dir}_old
-fi
-if [ -d ${dst_dir} ] ; then
-  mv ${dst_dir} ${dst_dir}_old
-fi
-mv ${install_dir} ${dst_dir}
-if [ -d ${dst_dir}_old ] ; then
-  /bin/rm -rf ${dst_dir}_old
-fi
+cat ./env/${env_file} >> ${dst_dir}/bin/activate
 
 # goodbye, Earthling!
 exit 0
