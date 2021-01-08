@@ -6,7 +6,7 @@ dst_dir=/project/s1053/install/venv/${version}
 src_dir=$(pwd)
 
 # versions
-fv3config_sha1=2212b33a2ec8e2e05df10e1c9ca0f1815d4f9a8d
+fv3config_sha1=1eb1f2898e9965ed7b32970bed83e64e074a7630
 gt4py_url="git+git://github.com/VulcanClimateModeling/gt4py.git"
 cuda_version=cuda102
 
@@ -19,8 +19,12 @@ source ${src_dir}/env/${env_file}
 set -e
 set -x
 
+# delete any pre-existing venv directories
+if [ -d ${dst_dir} ] ; then
+    /bin/rm -rf ${dst_dir}
+fi
+
 # setup virtual env
-if [ -d ${dst_dir} ] ; then /bin/rm -rf ${dst_dir} ; fi
 python3 -m venv ${dst_dir}
 source ${dst_dir}/bin/activate
 python3 -m pip install --upgrade pip
