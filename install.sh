@@ -53,3 +53,6 @@ deactivate
 echo "Note: this virtual env has been created on `hostname`."
 cat ${src_dir}/env/${env_file} ${dst_dir}/bin/activate > ${dst_dir}/bin/activate~
 mv ${dst_dir}/bin/activate~ ${dst_dir}/bin/activate
+
+# so long, Cowgirl!
+exit 0
