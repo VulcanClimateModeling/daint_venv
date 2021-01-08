@@ -38,9 +38,10 @@ rm -rf ${src_dir}/mpi4py
 export MPICC=cc
 git clone https://github.com/mpi4py/mpi4py.git
 cp ${src_dir}/mpi.cfg ${src_dir}/mpi4py
-cd mpi4py
+cd mpi4py/
 python3 setup.py build --mpi=mpi
 python3 setup.py install
+cd ../
 unset MPICC
 
 # installation of our packages
