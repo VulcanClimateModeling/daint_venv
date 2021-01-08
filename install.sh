@@ -60,7 +60,3 @@ deactivate
 # echo module environment
 echo "Note: this virtual env has been created on `hostname`."
 cat ./env/${env_file} >> ${dst_dir}/bin/activate
-
-# goodbye, Earthling!
-exit 0
-
