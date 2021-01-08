@@ -48,6 +48,8 @@ unset MPICC
 python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
 python3 -m pip install ${gt4py_url}#egg=gt4py[${cuda_version}]
 python3 -m gt4py.gt_src_manager install
+
+# deactivate virtual environment
 deactivate
 
 # echo module environment
