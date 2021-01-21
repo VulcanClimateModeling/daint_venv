@@ -32,7 +32,7 @@ python3 -m pip install --upgrade wheel
 
 # installation of standard packages
 python3 -m pip install kiwisolver numpy matplotlib cupy-${cuda_version} Cython h5py six zipp
-python3 -m pip install pytest pytest-profiling pytest-subtests hypothesis
+python3 -m pip install pytest pytest-profiling pytest-subtests hypothesis gitpython
 
 # installation of fv3 dependencies
 python3 -m pip install cftime f90nml pandas pyparsing python-dateutil pytz pyyaml xarray zarr
