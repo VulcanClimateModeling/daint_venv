@@ -2,7 +2,7 @@
 
 version=vcm_1.0
 env_file=env.daint.sh
-dst_dir=/project/s1053/install/venv/${version}
+dst_dir=${1:-/project/s1053/install/venv/${version}}
 src_dir=$(pwd)
 
 # versions
