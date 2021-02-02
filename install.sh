@@ -8,7 +8,7 @@ src_dir=$(pwd)
 # versions
 fv3config_sha1=1eb1f2898e9965ed7b32970bed83e64e074a7630
 cuda_version=cuda102
-# gt4py currently auto-updates using the latest stable tag
+# gt4py checks out the latest stable tag below
 
 # module environment
 source ${src_dir}/env.sh
@@ -52,8 +52,8 @@ unset MPICC
 python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
 
 # installation of gt4py
-git clone --depth 1 ${gt4py_url}
-(cd ${gt4py_url} && git checkout $(git describe --abbrev=0 --tags))
+git clone --depth 1 git://github.com/VulcanClimateModeling/gt4py.git gt4py
+(cd gt4py/ && git checkout $(git describe --abbrev=0 --tags))
 python3 -m pip install "gt4py/[${cuda_version}]"
 python3 -m gt4py.gt_src_manager install
 
