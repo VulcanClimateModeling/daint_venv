@@ -54,7 +54,7 @@ python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@
 # installation of gt4py
 git clone --depth 1 ${gt4py_url}
 (cd ${gt4py_url} && git checkout $(git describe --abbrev=0 --tags))
-python3 -m pip install gt4py/[${cuda_version}]
+python3 -m pip install "gt4py/[${cuda_version}]"
 python3 -m gt4py.gt_src_manager install
 
 # deactivate virtual environment
