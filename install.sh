@@ -52,7 +52,7 @@ unset MPICC
 python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
 
 # installation of gt4py
-git clone --depth 1 git://github.com/VulcanClimateModeling/gt4py.git gt4py
+git clone git://github.com/VulcanClimateModeling/gt4py.git gt4py
 (cd gt4py/ && git checkout $(git describe --abbrev=0 --tags))
 python3 -m pip install "gt4py/[${cuda_version}]"
 python3 -m gt4py.gt_src_manager install
