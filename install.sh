@@ -53,7 +53,12 @@ python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@
 
 # installation of gt4py
 git clone git://github.com/VulcanClimateModeling/gt4py.git gt4py
-(cd gt4py/ && git checkout $(git for-each-ref --count=1 --sort=-taggerdate --format '%(tag)' refs/tags))
+cd gt4py
+if [ -z "${GT4PY_TAG}" ]; then
+    GT4PY_TAG=$(git for-each-ref --count=1 --sort=-taggerdate --format '%(tag)' refs/tags)
+fi
+git checkout ${GT4PY_TAG}
+cd ../
 python3 -m pip install "gt4py/[${cuda_version}]"
 python3 -m gt4py.gt_src_manager install
 
