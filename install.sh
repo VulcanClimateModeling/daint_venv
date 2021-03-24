@@ -41,9 +41,11 @@ python3 -m pip install cftime f90nml pandas pyparsing python-dateutil pytz pyyam
 # build and install mpi4py from sources
 rm -rf ${src_dir}/mpi4py
 export MPICC=cc
-git clone --depth 1 https://github.com/mpi4py/mpi4py.git
+git clone https://github.com/mpi4py/mpi4py.git
 cp ${src_dir}/mpi.cfg ${src_dir}/mpi4py
 cd mpi4py/
+MPI4PY_VERSION=3310c167f96fa1718751ff703a72ac24e54cd5b1
+git checkout -f ${MPI4PY_VERSION}
 python3 setup.py build --mpi=mpi
 python3 setup.py install
 cd ../
