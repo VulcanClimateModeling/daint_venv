@@ -58,7 +58,8 @@ python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@
 git clone git://github.com/VulcanClimateModeling/gt4py.git gt4py
 cd gt4py
 if [ -z "${GT4PY_VERSION}" ]; then
-    GT4PY_VERSION=$(git for-each-ref --count=1 --sort=-taggerdate --format '%(tag)' refs/tags)
+    wget 'https://raw.githubusercontent.com/VulcanClimateModeling/fv3core/master/GT4PY_VERSION.txt'
+    GT4PY_VERSION=`cat GT4PY_VERSION.txt`
 fi
 git checkout ${GT4PY_VERSION}
 cd ../
