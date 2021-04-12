@@ -12,6 +12,9 @@ cuda_version=cuda102
 
 # module environment
 source ${src_dir}/env.sh
+cd ${src_dir}/env
+git checkout feature/update_gcc9.3_cuda11.0
+cd -
 source ${src_dir}/env/machineEnvironment.sh
 source ${src_dir}/env/${env_file}
 
