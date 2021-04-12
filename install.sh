@@ -44,7 +44,7 @@ export MPICC=cc
 git clone https://github.com/mpi4py/mpi4py.git
 cp ${src_dir}/mpi.cfg ${src_dir}/mpi4py
 cd mpi4py/
-MPI4PY_VERSION=3310c167f96fa1718751ff703a72ac24e54cd5b1
+MPI4PY_VERSION=aac3d8f2a56f3d74a75ad32ac0554d63e7ef90ab
 git checkout -f ${MPI4PY_VERSION}
 python3 setup.py build --mpi=mpi
 python3 setup.py install
@@ -55,6 +55,7 @@ unset MPICC
 python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
 
 # installation of gt4py
+rm -rf gt4py
 git clone git://github.com/VulcanClimateModeling/gt4py.git gt4py
 cd gt4py
 if [ -z "${GT4PY_VERSION}" ]; then
