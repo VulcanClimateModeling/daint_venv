@@ -43,6 +43,8 @@ rm -rf ${src_dir}/mpi4py
 export MPICC=cc
 git clone https://github.com/mpi4py/mpi4py.git
 
+# Setup a MPI config file to make sure mpi4py founds both MPICH
+# and CUDA for g2g enabled communication
 cat > ${src_dir}/mpi4py/mpi.cfg <<EOF
 # Some Linux distributions have RPM's for some MPI implementations.
 # In such a case, headers and libraries usually are in default system
@@ -74,6 +76,7 @@ library_dirs         = %(mpi_dir)s/lib %(cuda_dir)s/lib64
 runtime_library_dirs = %(mpi_dir)s/lib %(cuda_dir)s/lib64
 EOF
 
+# Build mpi4py relyng on the above scratch config
 cd mpi4py/
 MPI4PY_VERSION=aac3d8f2a56f3d74a75ad32ac0554d63e7ef90ab
 git checkout -f ${MPI4PY_VERSION}
