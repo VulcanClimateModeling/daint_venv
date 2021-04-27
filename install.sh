@@ -73,11 +73,13 @@ mpicxx               = `which CC`
 
 ## define_macros        =
 ## undef_macros         =
-include_dirs         = %(mpi_dir)s/include %(cuda_dir)s/include
+include_dirs         = ${MPICH_DIR}/include:${CUDA_HOME}/include
+library_dirs         = ${MPICH_DIR}/lib:${CUDA_HOME}/lib64
+runtime_library_dirs = ${MPICH_DIR}/lib:${CUDA_HOME}/lib64
 libraries            = mpich mpl rt pthread cuda cudart
-library_dirs         = %(mpi_dir)s/lib %(cuda_dir)s/lib64
-runtime_library_dirs = %(mpi_dir)s/lib %(cuda_dir)s/lib64
 EOF
+
+cat ${src_dir}/mpi4py/mpi.cfg
 
 # Build mpi4py relyng on the above scratch config
 cd mpi4py/
