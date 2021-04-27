@@ -42,6 +42,9 @@ python3 -m pip install cftime f90nml pandas pyparsing python-dateutil pytz pyyam
 rm -rf ${src_dir}/mpi4py
 export MPICC=cc
 git clone https://github.com/mpi4py/mpi4py.git
+cd mpi4py/
+MPI4PY_VERSION=aac3d8f2a56f3d74a75ad32ac0554d63e7ef90ab
+git checkout -f ${MPI4PY_VERSION}
 
 # Setup a MPI config file to make sure mpi4py founds both MPICH
 # and CUDA for g2g enabled communication
@@ -79,12 +82,8 @@ runtime_library_dirs = ${MPICH_DIR}/lib:${CUDA_HOME}/lib64
 libraries            = mpich mpl rt pthread cuda cudart
 EOF
 
-cat ${src_dir}/mpi4py/mpi.cfg
 
 # Build mpi4py relyng on the above scratch config
-cd mpi4py/
-MPI4PY_VERSION=aac3d8f2a56f3d74a75ad32ac0554d63e7ef90ab
-git checkout -f ${MPI4PY_VERSION}
 python3 setup.py build --mpi=mpi
 python3 setup.py install
 cd ../
