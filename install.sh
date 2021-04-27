@@ -76,9 +76,9 @@ mpicxx               = `which CC`
 
 ## define_macros        =
 ## undef_macros         =
-include_dirs         = ${MPICH_DIR}/include:${CUDA_HOME}/include
-library_dirs         = ${MPICH_DIR}/lib:${CUDA_HOME}/lib64
-runtime_library_dirs = ${MPICH_DIR}/lib:${CUDA_HOME}/lib64
+include_dirs         = ${MPICH_DIR}/include ${CUDA_HOME}/include
+library_dirs         = ${MPICH_DIR}/lib ${CUDA_HOME}/lib64
+runtime_library_dirs = ${MPICH_DIR}/lib ${CUDA_HOME}/lib64
 libraries            = mpich mpl rt pthread cuda cudart
 EOF
 
