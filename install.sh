@@ -40,20 +40,22 @@ $install_command clang-format gprof2dot
 # installation of fv3 dependencies
 $install_command cftime f90nml pandas pyparsing python-dateutil pytz pyyaml xarray zarr
 
-# build and install mpi4py from sources
-rm -rf ${src_dir}/mpi4py
-export MPICC=cc
-git clone https://github.com/mpi4py/mpi4py.git
-cd mpi4py/
-MPI4PY_VERSION=aac3d8f2a56f3d74a75ad32ac0554d63e7ef90ab
-git checkout -f ${MPI4PY_VERSION}
 
-# Setup a MPI config file to make sure mpi4py founds both MPICH
-# and CUDA for g2g enabled communication
-echo "Building MPI4PY with..."
-echo "... Cu in $CUDA_HOME"
-echo "... MPI in $MPICH_DIR"
-cat > ${src_dir}/mpi4py/mpi.cfg <<EOF
+if [ -z "$2" ] ; then
+    # build and install mpi4py from sources
+    rm -rf ${src_dir}/mpi4py
+    export MPICC=cc
+    git clone https://github.com/mpi4py/mpi4py.git
+    cd mpi4py/
+    MPI4PY_VERSION=aac3d8f2a56f3d74a75ad32ac0554d63e7ef90ab
+    git checkout -f ${MPI4PY_VERSION}
+
+    # Setup a MPI config file to make sure mpi4py founds both MPICH
+    # and CUDA for g2g enabled communication
+    echo "Building MPI4PY with..."
+    echo "... Cu in $CUDA_HOME"
+    echo "... MPI in $MPICH_DIR"
+    cat > ${src_dir}/mpi4py/mpi.cfg <<EOF
 # Some Linux distributions have RPM's for some MPI implementations.
 # In such a case, headers and libraries usually are in default system
 # locations, and you should not need any special configuration.
@@ -85,34 +87,36 @@ runtime_library_dirs = %(mpi_dir)s/lib %(cuda_dir)s/lib64
 EOF
 
 
-# Build mpi4py relyng on the above scratch config
-python3 setup.py build --mpi=mpi
-python3 setup.py install
-cd ../
-unset MPICC
+    # Build mpi4py relyng on the above scratch config
+    python3 setup.py build --mpi=mpi
+    python3 setup.py install
+    cd ../
+    unset MPICC
 
-# installation of fv3config
-python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
+    # installation of fv3config
+    python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
 
-# installation of gt4py
-rm -rf gt4py
-git clone git://github.com/VulcanClimateModeling/gt4py.git gt4py
-cd gt4py
-if [ -z "${GT4PY_VERSION}" ]; then
-    wget 'https://raw.githubusercontent.com/VulcanClimateModeling/fv3core/master/GT4PY_VERSION.txt'
-    GT4PY_VERSION=`cat GT4PY_VERSION.txt`
+    # installation of gt4py
+    rm -rf gt4py
+    git clone git://github.com/VulcanClimateModeling/gt4py.git gt4py
+    cd gt4py
+    if [ -z "${GT4PY_VERSION}" ]; then
+        wget 'https://raw.githubusercontent.com/VulcanClimateModeling/fv3core/master/GT4PY_VERSION.txt'
+        GT4PY_VERSION=`cat GT4PY_VERSION.txt`
+    fi
+    git checkout ${GT4PY_VERSION}
+    cd ../
+    python3 -m pip install "gt4py/[${cuda_version}]"
+    python3 -m gt4py.gt_src_manager install
+
+    # deactivate virtual environment
+    deactivate
+
+    # echo module environment
+    echo "Note: this virtual env has been created on `hostname`."
+    cat ${src_dir}/env/${env_file} ${dst_dir}/bin/activate > ${dst_dir}/bin/activate~
+    mv ${dst_dir}/bin/activate~ ${dst_dir}/bin/activate
+
 fi
-git checkout ${GT4PY_VERSION}
-cd ../
-python3 -m pip install "gt4py/[${cuda_version}]"
-python3 -m gt4py.gt_src_manager install
-
-# deactivate virtual environment
-deactivate
-
-# echo module environment
-echo "Note: this virtual env has been created on `hostname`."
-cat ${src_dir}/env/${env_file} ${dst_dir}/bin/activate > ${dst_dir}/bin/activate~
-mv ${dst_dir}/bin/activate~ ${dst_dir}/bin/activate
 
 exit 0
