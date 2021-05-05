@@ -4,11 +4,8 @@ version=vcm_1.0
 env_file=env.daint.sh
 dst_dir=${1:-/project/s1053/install/venv/${version}}
 src_dir=$(pwd)
-wheel_dir=/project/s1053/install/wheeldir
-install_command=${2:-"python3 -m pip install --find-links=$wheel_dir"}
 
 # versions
-fv3config_sha1=1eb1f2898e9965ed7b32970bed83e64e074a7630
 cuda_version=cuda102
 # gt4py checks out the latest stable tag below
 
@@ -32,41 +29,30 @@ source ${dst_dir}/bin/activate
 python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade wheel
 
-# installation of standard packages
-$install_command kiwisolver numpy matplotlib cupy-${cuda_version} Cython h5py six zipp
-$install_command pytest pytest-profiling pytest-subtests hypothesis gitpython 
-$install_command clang-format gprof2dot
+# installation of standard packages that are backend specific
+python3 -m pip install cupy-${cuda_version} Cython
+python3 -m pip install clang-format
 
-# installation of fv3 dependencies
-$install_command cftime f90nml pandas pyparsing python-dateutil pytz pyyaml xarray zarr
-
-
-if [ -z "$2" ] ; then
-    python3 -m pip install --no-index --find-links=/project/s1053/install/mpi4py mpi4py
-    # installation of fv3config
-    python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
-
-    # installation of gt4py
-    rm -rf gt4py
-    git clone git://github.com/VulcanClimateModeling/gt4py.git gt4py
-    cd gt4py
-    if [ -z "${GT4PY_VERSION}" ]; then
-        wget 'https://raw.githubusercontent.com/VulcanClimateModeling/fv3core/master/GT4PY_VERSION.txt'
-        GT4PY_VERSION=`cat GT4PY_VERSION.txt`
-    fi
-    git checkout ${GT4PY_VERSION}
-    cd ../
-    python3 -m pip install "gt4py/[${cuda_version}]"
-    python3 -m gt4py.gt_src_manager install
-
-    # deactivate virtual environment
-    deactivate
-
-    # echo module environment
-    echo "Note: this virtual env has been created on `hostname`."
-    cat ${src_dir}/env/${env_file} ${dst_dir}/bin/activate > ${dst_dir}/bin/activate~
-    mv ${dst_dir}/bin/activate~ ${dst_dir}/bin/activate
-
+# installation of gt4py
+rm -rf gt4py
+git clone git://github.com/VulcanClimateModeling/gt4py.git gt4py
+cd gt4py
+if [ -z "${GT4PY_VERSION}" ]; then
+    wget 'https://raw.githubusercontent.com/VulcanClimateModeling/fv3core/master/GT4PY_VERSION.txt'
+    GT4PY_VERSION=`cat GT4PY_VERSION.txt`
 fi
+git checkout ${GT4PY_VERSION}
+cd ../
+python3 -m pip install "gt4py/[${cuda_version}]"
+python3 -m gt4py.gt_src_manager install
+
+# deactivate virtual environment
+deactivate
+
+# echo module environment
+echo "Note: this virtual env has been created on `hostname`."
+cat ${src_dir}/env/${env_file} ${dst_dir}/bin/activate > ${dst_dir}/bin/activate~
+mv ${dst_dir}/bin/activate~ ${dst_dir}/bin/activate
+
 
 exit 0
