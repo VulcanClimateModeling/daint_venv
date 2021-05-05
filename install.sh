@@ -4,6 +4,8 @@ version=vcm_1.0
 env_file=env.daint.sh
 dst_dir=${1:-/project/s1053/install/venv/${version}}
 src_dir=$(pwd)
+wheel_dir=/project/s1053/install/wheeldir
+install_command=${2:-"python3 -m pip install --find-links=$wheel_dir"}
 
 # versions
 fv3config_sha1=1eb1f2898e9965ed7b32970bed83e64e074a7630
@@ -31,12 +33,12 @@ python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade wheel
 
 # installation of standard packages
-python3 -m pip install kiwisolver numpy matplotlib cupy-${cuda_version} Cython h5py six zipp
-python3 -m pip install pytest pytest-profiling pytest-subtests hypothesis gitpython 
-python3 -m pip install clang-format gprof2dot
+$install_command kiwisolver numpy matplotlib cupy-${cuda_version} Cython h5py six zipp
+$install_command pytest pytest-profiling pytest-subtests hypothesis gitpython 
+$install_command clang-format gprof2dot
 
 # installation of fv3 dependencies
-python3 -m pip install cftime f90nml pandas pyparsing python-dateutil pytz pyyaml xarray zarr
+$install_command cftime f90nml pandas pyparsing python-dateutil pytz pyyaml xarray zarr
 
 # build and install mpi4py from sources
 rm -rf ${src_dir}/mpi4py
