@@ -7,7 +7,7 @@ src_dir=$(pwd)
 
 # versions
 fv3config_sha1=1eb1f2898e9965ed7b32970bed83e64e074a7630
-cuda_version=cuda102
+cuda_version=cuda
 # gt4py checks out the latest stable tag below
 
 # module environment
@@ -31,7 +31,7 @@ python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade wheel
 
 # installation of standard packages
-python3 -m pip install kiwisolver numpy matplotlib cupy-${cuda_version} Cython h5py six zipp
+python3 -m pip install kiwisolver numpy matplotlib cupy Cython h5py six zipp
 python3 -m pip install pytest pytest-profiling pytest-subtests hypothesis gitpython 
 python3 -m pip install clang-format gprof2dot
 
