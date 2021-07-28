@@ -39,55 +39,7 @@ python3 -m pip install clang-format gprof2dot
 python3 -m pip install cftime f90nml pandas pyparsing python-dateutil pytz pyyaml xarray zarr
 
 # build and install mpi4py from sources
-rm -rf ${src_dir}/mpi4py
-export MPICC=cc
-git clone https://github.com/mpi4py/mpi4py.git
-cd mpi4py/
-MPI4PY_VERSION=aac3d8f2a56f3d74a75ad32ac0554d63e7ef90ab
-git checkout -f ${MPI4PY_VERSION}
-
-# Setup a MPI config file to make sure mpi4py founds both MPICH
-# and CUDA for g2g enabled communication
-echo "Building MPI4PY with..."
-echo "... Cu in $CUDA_HOME"
-echo "... MPI in $MPICH_DIR"
-cat > ${src_dir}/mpi4py/mpi.cfg <<EOF
-# Some Linux distributions have RPM's for some MPI implementations.
-# In such a case, headers and libraries usually are in default system
-# locations, and you should not need any special configuration.
-
-# If you do not have MPI distribution in a default location, please
-# uncomment and fill-in appropriately the following lines. Yo can use
-# as examples the [mpich2], [openmpi],  and [deinompi] sections
-# below the [mpi] section (wich is the one used by default).
-
-# If you specify multiple locations for includes and libraries,
-# please separate them with the path separator for your platform,
-# i.e., ':' on Unix-like systems and ';' on Windows
-
-# Daint configuration
-# ---------------------
-[mpi]
-mpi_dir              = ${MPICH_DIR}
-cuda_dir             = ${CUDA_HOME}
-
-mpicc                = `which cc`
-mpicxx               = `which CC`
-
-## define_macros        =
-## undef_macros         =
-include_dirs         = %(mpi_dir)s/include %(cuda_dir)s/include
-libraries            = mpich mpl rt pthread cuda cudart
-library_dirs         = %(mpi_dir)s/lib %(cuda_dir)s/lib64
-runtime_library_dirs = %(mpi_dir)s/lib %(cuda_dir)s/lib64
-EOF
-
-
-# Build mpi4py relyng on the above scratch config
-python3 setup.py build --mpi=mpi
-python3 setup.py install
-cd ../
-unset MPICC
+python3 -m pip install /project/s1053/install/mpi4py/mpi4py-3.1.0a0-cp38-cp38-linux_x86_64.whl
 
 # installation of fv3config
 python3 -m pip install git+git://github.com/VulcanClimateModeling/fv3config.git@${fv3config_sha1}
