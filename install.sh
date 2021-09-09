@@ -6,7 +6,7 @@ dst_dir=${1:-/project/s1053/install/venv/${version}}
 src_dir=$(pwd)
 
 # versions
-cuda_version=cuda102
+cuda_version=cuda
 # gt4py checks out the latest stable tag below
 
 # module environment
@@ -33,6 +33,7 @@ python3 -m pip install --upgrade wheel
 python3 -m pip install cupy-${cuda_version} Cython
 python3 -m pip install clang-format
 
+
 # installation of gt4py
 rm -rf gt4py
 git clone git://github.com/VulcanClimateModeling/gt4py.git gt4py
@@ -45,6 +46,7 @@ git checkout ${GT4PY_VERSION}
 cd ../
 python3 -m pip install "gt4py/[${cuda_version}]"
 python3 -m gt4py.gt_src_manager install
+python3 -m gt4py.gt_src_manager install -m 2
 
 # deactivate virtual environment
 deactivate
