@@ -30,7 +30,7 @@ python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade wheel
 
 # installation of standard packages that are backend specific
-python3 -m pip install cupy-${cuda_version} Cython
+python3 -m pip install cupy Cython
 python3 -m pip install clang-format
 
 
