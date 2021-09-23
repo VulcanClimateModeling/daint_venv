@@ -45,8 +45,23 @@ fi
 git checkout ${GT4PY_VERSION}
 cd ../
 python3 -m pip install "gt4py/[${cuda_version}]"
+
+# installation of gridtools
 python3 -m gt4py.gt_src_manager install
-python3 -m gt4py.gt_src_manager install -m 2
+if [ -n "${GRIDTOOLS_VERSION}" ]; then
+    readarray -d : -t GRIDTOOLS_ARRAY <<< "$GRIDTOOLS_VERSION"
+    GRIDTOOLS_REPO=${GRIDTOOLS_ARRAY[0]}
+    GRIDTOOLS_BRANCH=${GRIDTOOLS_ARRAY[1]}
+    rm -rf gridtools
+    git clone "https://github.com/${GRIDTOOLS_REPO}/gridtools.git" gridtools
+    cd gridtools
+    git checkout ${GRIDTOOLS_BRANCH}
+    export GT2_INCLUDE_PATH="$(pwd)/include"
+    cd ../
+else
+    python3 -m gt4py.gt_src_manager install -m 2
+fi
+
 
 # deactivate virtual environment
 deactivate
@@ -54,6 +69,9 @@ deactivate
 # echo module environment
 echo "Note: this virtual env has been created on `hostname`."
 cat ${src_dir}/env/${env_file} ${dst_dir}/bin/activate > ${dst_dir}/bin/activate~
+if [ -n "${GT2_INCLUDE_PATH}" ]; then
+    echo "export GT2_INCLUDE_PATH=${GT2_INCLUDE_PATH}" >> ${dst_dir}/bin/activate~
+fi
 mv ${dst_dir}/bin/activate~ ${dst_dir}/bin/activate
 
 
