@@ -45,8 +45,10 @@ fi
 git checkout ${GT4PY_VERSION}
 cd ../
 python3 -m pip install "gt4py/[${cuda_version}]"
-python3 -m gt4py.gt_src_manager install
-python3 -m gt4py.gt_src_manager install -m 2
+
+# load gridtools modules
+module load gridtools/1_1_3
+module load gridtools/2_1_0_b
 
 # deactivate virtual environment
 deactivate
