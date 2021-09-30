@@ -46,17 +46,17 @@ git checkout ${GT4PY_VERSION}
 cd ../
 python3 -m pip install "gt4py/[${cuda_version}]"
 
-# load gridtools modules
-module load gridtools/1_1_3
-module load gridtools/2_1_0_b
-
 # deactivate virtual environment
 deactivate
 
 # echo module environment
 echo "Note: this virtual env has been created on `hostname`."
 cat ${src_dir}/env/${env_file} ${dst_dir}/bin/activate > ${dst_dir}/bin/activate~
-mv ${dst_dir}/bin/activate~ ${dst_dir}/bin/activate
 
+# load gridtools modules
+echo "module load gridtools/1_1_3" >> ${dst_dir}/bin/activate~
+echo "module load gridtools/2_1_0_b" >> ${dst_dir}/bin/activate~
+
+mv ${dst_dir}/bin/activate~ ${dst_dir}/bin/activate
 
 exit 0
