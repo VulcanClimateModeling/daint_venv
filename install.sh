@@ -3,6 +3,8 @@
 version=vcm_1.0
 env_file=env.daint.sh
 dst_dir=${1:-/project/s1053/install/venv/${version}}
+wheeldir=${2:-/project/s1053/install/wheeldir}
+save_wheel=${3: false}
 src_dir=$(pwd)
 
 # versions
@@ -30,8 +32,10 @@ python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade wheel
 
 # installation of standard packages that are backend specific
-python3 -m pip install cupy Cython
-python3 -m pip install clang-format
+if [ $save_wheel ]; then
+    python3 -m pip wheel --wheel-dir=$wheeldir cupy Cython clang-format
+fi
+python3 -m pip install --find-links=$wheeldir cupy Cython clang-format
 
 
 # installation of gt4py
@@ -44,7 +48,11 @@ if [ -z "${GT4PY_VERSION}" ]; then
 fi
 git checkout ${GT4PY_VERSION}
 cd ../
-python3 -m pip install "gt4py/[${cuda_version}]"
+if [ $save_wheel ]; then
+    python3 gt4py/setup.py bdist_wheel -d $wheeldir
+    python3 -m pip wheel --wheel-dir=$wheeldir "gt4py/[${cuda_version}]"
+fi
+python3 -m pip install --find-links=$wheeldir "gt4py/[${cuda_version}]"
 
 # load gridtools modules
 module load gridtools/1_1_3
