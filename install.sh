@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-BUILDENV_DIR=$SCRIPT_DIR/../../buildenv
-
-VERSION=vcm_1.0
+version=vcm_1.0
 env_file=env.daint.sh
+dst_dir=${1:-/project/s1053/install/venv/${version}}
+wheeldir=${2:-/project/s1053/install/wheeldir}
+save_wheel=${3: false}
 src_dir=$(pwd)
 
+# versions
+cuda_version=cuda
+# gt4py checks out the latest stable tag below
+
 # module environment
-source ${BUILDENV_DIR}/machineEnvironment.sh
-source ${BUILDENV_DIR}/${env_file}
+source ${src_dir}/env.sh
+source ${src_dir}/env/machineEnvironment.sh
+source ${src_dir}/env/${env_file}
 
 # echo commands and stop on error
 set -e
@@ -43,7 +48,7 @@ deactivate
 
 # echo module environment
 echo "Note: this virtual env has been created on `hostname`."
-cat ${BUILDENV_DIR}/${env_file} ${dst_dir}/bin/activate > ${dst_dir}/bin/activate~
+cat ${src_dir}/env/${env_file} ${dst_dir}/bin/activate > ${dst_dir}/bin/activate~
 mv ${dst_dir}/bin/activate~ ${dst_dir}/bin/activate
 
 
